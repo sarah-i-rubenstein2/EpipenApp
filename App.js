@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
+import Login from './components/Login';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import MapView from 'react-native-maps'
 import { Marker } from "react-native-maps"
