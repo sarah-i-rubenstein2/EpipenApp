@@ -126,6 +126,29 @@ export default function App() {
     })();
   }, []);
 
+  useEffect(() => {
+    const fetchData = () => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', 'http://10.140.76.34:8080/users', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+  
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            const data = JSON.parse(xhr.responseText);
+            setAllUsers(data);
+          } else {
+            console.error('Error fetching data:', xhr.statusText);
+          }
+        }
+      };
+  
+      xhr.send();
+    };
+  
+    fetchData();
+  }, []);
+
   let text = 'Waiting..';
   if (errorMsg) {
     text = errorMsg;

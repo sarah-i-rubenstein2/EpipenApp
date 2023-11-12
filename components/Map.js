@@ -1,5 +1,5 @@
 import React,{useState, useEffect, useRef} from 'react'
-import {SafeAreaView, View, Text, StyleSheet, TouchableOpacity,  Platform} from 'react-native'
+import {SafeAreaView, View, Text, StyleSheet, TouchableOpacity,  Platform, Dimensions} from 'react-native'
 import { CustomInput } from './CustomInput';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import { Marker } from "react-native-maps"
@@ -76,45 +76,21 @@ const Map = (props) => {
           { points ? points.map((point) => { 
             return <Marker coordinate={point} key={Math.random()} />
           }) : null }
-          {/* <Button
-            title="E"
-            loading={false}
-            loadingProps={{ size: 'small', color: 'white' }}
-            buttonStyle={{
-            backgroundColor: 'rgba(235, 20, 20, 1)',
-            borderRadius: 100,
-            }}
-            titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
-            containerStyle={{
-            marginHorizontal: 50,
-            height: 300,
-            width: 300,
-            marginVertical: 50,
-            position: 'absolute',
-            bottom:10
-            }}
-            onPress={emergency}
-        /> */}
       </MapView>
       <TouchableOpacity style={styles.buttonContainer}>
         <View style={styles.button}>
-            
-            {/* <FAB 
-            icon="bell" 
-            styles={styles.fab}
-            color={"#333366"}
-            onPress={emergency}
-                /> */}
             <Button 
             buttonStyle={{
+                width: Dimensions.get('window').width - 50,
+                height: Dimensions.get('window').height - 780,
                 backgroundColor: 'rgba(235, 20, 20, 1)',
                 borderRadius: 10,
                 padding: 15,
             }} 
             titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
             containerStyle={{
-                width: 365,
-                height: 75,
+                width: Dimensions.get('window').width - 50,
+                height: Dimensions.get('window').height - 780,
                 justifyContent: 'center',
                 flex: 1,
                 padding: 0,
