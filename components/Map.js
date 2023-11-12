@@ -52,7 +52,7 @@ const Map = (props) => {
     <>
       <MapView style={styles.map} provider={PROVIDER_GOOGLE} region={{latitude: props.extraData.coords.latitude, longitude: props.extraData.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421}} showsUserLocation={true} >
           { points.map((point) => { 
-            return <Marker coordinate={point} />
+            return <Marker coordinate={point} key={Math.random()} />
           }) }
           {/* <Button
             title="E"
