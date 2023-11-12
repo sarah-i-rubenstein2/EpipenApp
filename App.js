@@ -13,6 +13,14 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [allUsers, setAllUsers] = useState(null);
+
+  useEffect(() => {
+    fetch('http://10.140.76.34:8080/users')
+      .then(response => response.json())
+      .then(data => setAllUsers(data))
+      .catch(error => console.error(error));
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -42,7 +50,7 @@ export default function App() {
         
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Map">
-          {(props) => <Map {...props} extraData={location} />}
+          {(props) => <Map {...props} extraData={location} users={allUsers}/>}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

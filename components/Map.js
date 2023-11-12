@@ -25,7 +25,22 @@ const testPoint = {
     longitudeDelta: 0.0421,
   }
 
+const getPoints=(users) => {
+  points = []
+  users.forEach((user) => points.push({
+    latitude: user.latitude,
+    longitude: user.longitude,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  }))
+
+  return points
+}
+
 const Map = (props) => {
+  let users = props.users
+  points = getPoints(users)
+
     const emergency=() => {
         alert("Emergency!");
     }
@@ -35,7 +50,9 @@ const Map = (props) => {
     {
     props.extraData ?
       <MapView style={styles.map} provider={PROVIDER_GOOGLE} region={{latitude: props.extraData.coords.latitude, longitude: props.extraData.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421}} showsUserLocation={true} >
-          <Marker coordinate={testPoint} />
+          { points.map((point) => { 
+            return <Marker coordinate={point} />
+          }) }
           {/* <Button
             title="E"
             loading={false}
