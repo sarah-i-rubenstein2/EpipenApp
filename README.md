@@ -1,4 +1,8 @@
 # EpipenApp
+
+## Demo video:
+https://youtu.be/QSjID5FVw_E
+
 ## Inspiration
 We have family members with severe allergies. If they have an allergic reaction, and EpiPen could save their life. They almost always carry an EpiPen with them, but sometimes they forget.
 
