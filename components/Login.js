@@ -11,7 +11,7 @@ const Login = ({navigation}) => {
 
   const pressHandler=() => {
     if (password.length<8){
-      alert("make a password of at least 8");
+      alert("Password should contain at least 8 letters");
     }
     else{
       navigation.navigate('Map')
