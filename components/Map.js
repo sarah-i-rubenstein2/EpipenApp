@@ -23,6 +23,7 @@ const Map = (props) => {
     <SafeAreaView style={styles.container}>
     {
     props.extraData ?
+    <>
       <MapView style={styles.map} provider={PROVIDER_GOOGLE} region={{latitude: props.extraData.coords.latitude, longitude: props.extraData.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421}} showsUserLocation={true} >
           <Marker coordinate={testPoint} />
           {/* <Button
@@ -44,7 +45,8 @@ const Map = (props) => {
             }}
             onPress={emergency}
         /> */}
-        <TouchableOpacity style={styles.buttonContainer}>
+      </MapView>
+      <TouchableOpacity style={styles.buttonContainer}>
         <View style={styles.button}>
             {/* <FAB 
             icon="bell" 
@@ -56,16 +58,20 @@ const Map = (props) => {
             buttonStyle={{
                 backgroundColor: 'rgba(235, 20, 20, 1)',
                 borderRadius: 10,
-                padding: 15
+                padding: 15,
             }} 
             titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
             containerStyle={{
-                width: 300,
+                width: 365,
+                height: 75,
+                justifyContent: 'center',
+                flex: 1,
                 padding: 0,
             }}>Emergency</Button>
         </View>
       </TouchableOpacity>
-      </MapView> : <Text style={styles.headline}>Please wait</Text>
+      </>
+      : <Text style={styles.headline}>Please wait</Text>
     }
     </SafeAreaView>
   )
