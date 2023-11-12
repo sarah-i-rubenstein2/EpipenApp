@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       fontSize: 18,
       marginTop: 300,
-      width: 200
+      width: Dimensions.get('window').width,
     },
     buttonContainer: {
         position: 'absolute',

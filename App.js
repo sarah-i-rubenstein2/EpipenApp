@@ -170,14 +170,29 @@ export default function App() {
 }
 
 async function schedulePushNotification(lat, long) {
+
+  try{
+
+  // API request using given lat and long parameters
+  const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=AIzaSyDOHA_CmV47amwD9POMpZi4L6zxsdL5Dzc`);
+  const result = await response.json();
+
+  //format address
+  const formattedAddress = result.results[0].formatted_address;
+
+  // Schedule notification with the fetched data
   await Notifications.scheduleNotificationAsync({
     content: {
       title: "⚠️ Epipen needed in 1 mile radius ",
-      body: String(lat) + " "  + String(long),
+      body: formattedAddress,
       data: { data: 'goes here' },
     },
     trigger: { seconds: 2 },
   });
+}
+catch(error){
+
+}
 }
 
 async function registerForPushNotificationsAsync() {
