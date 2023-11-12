@@ -17,33 +17,55 @@ Notifications.setNotificationHandler({
     }),
   });
 
-
-const testPoint = {
-    latitude: 43.07162,
-    longitude: -89.39543,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  }
-
 const getPoints=(users) => {
-  points = []
-  users.forEach((user) => points.push({
-    latitude: user.latitude,
-    longitude: user.longitude,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  }))
+  if(users){
+    points = []
+    users.forEach((user) => points.push({
+      latitude: parseFloat(user.latitude),
+      longitude: parseFloat(user.longitude),
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    }))
+  
+    return points
+  }
+  return null
+}
 
-  return points
+const updateUser=(userId, location) => {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      id: userId,
+      longitude: location.coords.longitude,
+      latitude: location.coords.latitude,
+      emerg: 1
+    })
+};
+fetch('http://10.140.76.34:8080/updateUser', requestOptions)
+
+setTimeout(() => { removeEmergency(userId, location) }, 10000);
+}
+
+const removeEmergency=(userId, location) => {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      id: userId,
+      longitude: location.coords.longitude,
+      latitude: location.coords.latitude,
+      emerg: 0
+    })
+};
+fetch('http://10.140.76.34:8080/updateUser', requestOptions)
 }
 
 const Map = (props) => {
   let users = props.users
   points = getPoints(users)
-
-    const emergency=() => {
-        alert("Emergency!");
-    }
+    
   return (
     // <Button title="Emergency" onPress={emergency}></Button>
     <SafeAreaView style={styles.container}>
@@ -51,9 +73,9 @@ const Map = (props) => {
     props.extraData ?
     <>
       <MapView style={styles.map} provider={PROVIDER_GOOGLE} region={{latitude: props.extraData.coords.latitude, longitude: props.extraData.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421}} showsUserLocation={true} >
-          { points.map((point) => { 
+          { points ? points.map((point) => { 
             return <Marker coordinate={point} key={Math.random()} />
-          }) }
+          }) : null }
           {/* <Button
             title="E"
             loading={false}
@@ -96,9 +118,7 @@ const Map = (props) => {
                 justifyContent: 'center',
                 flex: 1,
                 padding: 0,
-            }}  onPress={async () => {
-                await schedulePushNotification();
-              }} >Emergency</Button>
+            }}  onPress={() => updateUser(props.userId, props.extraData)} >Emergency</Button>
         </View>
       </TouchableOpacity>
       </>
@@ -134,49 +154,5 @@ const styles = StyleSheet.create({
       },
   });
 
-  async function schedulePushNotification() {
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "⚠️ Epipen needed in 1 mile radius ",
-        body: 'PUT ADRESS HERE',
-        data: { data: 'goes here' },
-      },
-      trigger: { seconds: 2 },
-    });
-  }
-
-  async function registerForPushNotificationsAsync() {
-    let token;
-  
-    if (Platform.OS === 'android') {
-      await Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
-      });
-    }
-  
-    if (Device.isDevice) {
-      const { status: existingStatus } = await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-      if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
-        return;
-      }
-      // Learn more about projectId:
-      // https://docs.expo.dev/push-notifications/push-notifications-setup/#configure-projectid
-      token = (await Notifications.getExpoPushTokenAsync({ projectId: 'your-project-id' })).data;
-      console.log(token);
-    } else {
-      alert('Must use physical device for Push Notifications');
-    }
-  
-    return token;
-  }
 
 export default Map;

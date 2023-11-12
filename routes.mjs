@@ -14,12 +14,18 @@ export async function getUsers(){
 }
 
 export async function createUser(longitude, latitude, emerg){
+  console.log("created user")
     const [result] = await pool.query(`
     INSERT INTO Users (longitude, latitude, emerg)
     VALUES (?, ?, ?)`, [longitude, latitude, emerg])
     return result.insertId
 }
 
-export const result = await createUser(10.0000, 23.023, 0)
-console.log(result)
-
+export async function updateUser(id, longitude, latitude, emerg){
+  console.log("updated user", id)
+  const [result] = await pool.query(`
+  UPDATE Users 
+  SET longitude=?, latitude=?, emerg=?
+  WHERE id=?`, [longitude, latitude, emerg, id])
+  return result.insertId
+}
