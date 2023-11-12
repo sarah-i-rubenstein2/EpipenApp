@@ -71,33 +71,18 @@ const Map = (props) => {
     <SafeAreaView style={styles.container}>
     {
     props.extraData ?
-    <>
+<>
       <MapView style={styles.map} provider={PROVIDER_GOOGLE} region={{latitude: props.extraData.coords.latitude, longitude: props.extraData.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421}} showsUserLocation={true} >
           { points ? points.map((point) => { 
             return <Marker coordinate={point} key={Math.random()} />
           }) : null }
       </MapView>
-      <TouchableOpacity style={styles.buttonContainer}>
+      <TouchableOpacity style={styles.buttonContainer} onPress={() => updateUser(props.userId, props.extraData)}>
         <View style={styles.button}>
-            <Button 
-            buttonStyle={{
-                width: Dimensions.get('window').width - 50,
-                height: Dimensions.get('window').height - 780,
-                backgroundColor: 'rgba(235, 20, 20, 1)',
-                borderRadius: 10,
-                padding: 15,
-            }} 
-            titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
-            containerStyle={{
-                width: Dimensions.get('window').width - 50,
-                height: Dimensions.get('window').height - 780,
-                justifyContent: 'center',
-                flex: 1,
-                padding: 0,
-            }}  onPress={() => updateUser(props.userId, props.extraData)} >Emergency</Button>
+          <Text style={styles.buttonText}>Emergency</Text>
         </View>
       </TouchableOpacity>
-      </>
+    </>
       : <Text style={styles.headline}>Please wait</Text>
     }
     </SafeAreaView>
@@ -105,30 +90,52 @@ const Map = (props) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    map: {
-      width: '100%',
-      height: '105%',
-    },
-    headline: {
-      textAlign: 'center',
-      fontWeight: 'bold',
-      fontSize: 18,
-      marginTop: 300,
-      width: Dimensions.get('window').width,
-    },
-    buttonContainer: {
-        position: 'absolute',
-        bottom: 16,
-        right: 16,
-      },
-      button: {
-        padding: 10,
-        borderRadius: 5,
-      },
-  });
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  map: {
+    width: '100%',
+    height: Dimensions.get('window').height - 50,
+  },
+  headline: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginTop: 300,
+    width: Dimensions.get('window').width,
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 16,
+    right: 16,
+  },
+  button: {
+    paddingTop: 10,
+    padding: 10,
+    borderRadius: 5,
+    bottom: 25,
+    width: Dimensions.get('window').width - 35,
+    height: Dimensions.get('window').height - 900,
+    backgroundColor: 'rgba(235, 20, 20, 1)',
+    fontWeight: 'bold', 
+    fontSize: 23,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: 'white',
+    borderRadius: 50,
+  },
+  buttonText:{
+    fontWeight: 'bold', 
+    fontSize: 23,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: 'white',
+  }
+});
 
 
 export default Map;
