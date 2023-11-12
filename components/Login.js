@@ -1,8 +1,10 @@
 import React,{useState} from 'react'
 import {View, Text, StyleSheet, Button} from 'react-native'
 import { CustomInput } from './CustomInput';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const Login = () => {
+const Login = ({navigation}) => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -12,8 +14,7 @@ const Login = () => {
       alert("make a password of at least 8");
     }
     else{
-      alert("Successfully logged in")
-      {/* route to map!*/}
+      navigation.navigate('Map')
     }
   }
   return (
@@ -34,23 +35,25 @@ const Login = () => {
 const styles = StyleSheet.create({
 
   container:{
-    
-alignItems:'center',
-display:'flex',
-width:'50%',
-gap:10
-  },
-  text:{
-    fontSize:50,
-  },
-buttonContainer:{
-display:'flex',
-borderColor:'blue',
-borderWidth:1,
-backgroundColor:'white',
-borderRadius:10,
-color:'white',
-
+    flex: 1, 
+    alignItems:'center',
+    textAlign: 'center',
+    display:'flex',
+    width:'50%',
+    marginLeft: '25%',
+    marginTop: '25%',
+    gap:10
+      },
+      text:{
+        fontSize:50,
+      },
+    buttonContainer:{
+    display:'flex',
+    borderColor:'blue',
+    borderWidth:1,
+    backgroundColor:'white',
+    borderRadius:10,
+    color:'white',
 }
 
 
